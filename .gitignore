@@ -1,0 +1,13 @@
+# macOS
+.DS_Store
+
+# Gradle / Kotlin
+.gradle/
+.kotlin/
+build/
+local.properties
+
+# Secrets
+.env
+.env.*
+secrets/
