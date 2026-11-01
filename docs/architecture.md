@@ -25,7 +25,9 @@ binnenkomende berichten; onbekende actietypes worden geweigerd (LS-10) in plaats
 
 `call` en `sms` voert de launcher alleen uit met een geldig `ConfirmationToken`: eenmalig, korte
 ttl, met een hash van doelwit en payload. Het token ontstaat op de telefoon na "Ja" op de
-bevestigingskaart (LS-13/LS-14, MSG-1/MSG-2). Een bot kan het niet zelf maken.
+bevestigingskaart (LS-13/LS-14, MSG-1/MSG-2), of zonder kaart voor een bericht via een kanaal
+waarvoor de gebruiker bevestiging uitzette, hoogstens één per zin van de gebruiker (MSG-8). Een bot
+kan het niet zelf maken.
 
 ## Specs
 

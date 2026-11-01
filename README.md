@@ -55,7 +55,9 @@ Scenario's: "Bel Sarah", "Stuur een bericht naar Mark: ik ben onderweg" (ook "op
 
 - **Bevestiging bij bellen en berichten.** Een bot vraagt met `confirm_request`; de telefoon toont
   een kaart en geeft alleen na "Ja" een eenmalig token. Zonder geldig token voert de launcher niets
-  uit, ook als de bot erom vraagt.
+  uit, ook als de bot erom vraagt. Voor berichten kan de gebruiker de kaart per kanaal uitzetten
+  (MSG-8): de telefoon geeft het token dan zonder kaart, hoogstens één per zin die de gebruiker
+  zegt. Bellen vraagt altijd de kaart.
 - **Betalen blijft van het systeem.** Geen enkele botactie raakt betalingen.
 - **Persoonlijke data blijft lokaal.** BioBASE-verzoeken zijn een aparte, efemere berichtcategorie.
 

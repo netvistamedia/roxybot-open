@@ -15,24 +15,25 @@ Uit: in-call-logica (telephony-bridge), SMS (messaging), camera, navigatie, BioB
 | Staat | Weergave |
 |---|---|
 | IDLE | warm donker #1C1813 met vignet (achtergrond van de Method4Life-pauze), dunne eigen statusstrip (tijd, batterij, signaal), in het midden de cirkel (altijd-luisteren: ademend, 9 s per ademhaling; push-to-talk: stil met microfoonicoon in de kern), daaronder "Houd ingedrukt voor instellingen". Geen losse micknop: tik op de cirkel = praten, lang drukken = instellingen |
-| LISTENING | crème deeltjeszwerm (238,230,214) op mic-amplitude; live transcriptie in grote letters |
-| THINKING | deeltjeszwerm in rust (verzameld, langzaam draaiend); laatste transcript blijft staan |
-| CONFIRM | bevestigingskaart, zie onder |
+| LISTENING | Roxy wordt wakker in de cirkel en luistert, haar ogen en gloed volgen de mic-amplitude (spec avatar); live transcriptie in grote letters, Roxy zakt eronder |
+| THINKING | Roxy denkt, lichtjes draaien langzaam rond de bol; laatste transcript blijft staan |
+| CONFIRM | bevestigingskaart, zie onder; Roxy wacht verkleind boven de kaart als daar ruimte is |
 | IN_CALL | alleen naam + timer + mute/ophangen (inhoud van telephony-bridge) |
 | CONTENT | full-screen foto/kaart/document |
 | SETTINGS | verborgen menu, exact zes opties |
 
-Spreekt de bot (TTS) in IDLE of THINKING, dan verschijnt een hologramgezicht dat de cirkel
-tijdelijk vervangt en 1,1 s na het einde vervaagt; nooit over CONFIRM, IN_CALL of CONTENT. Het
-gezicht is een gestippelde deeltjeswolk uit een masker (`res/raw/face_mask_blue.png`, gemaakt met
-`tools/face-mask/make_mask.py`): dichtheid en deeltjesgrootte volgen de helderheid, één tint, gloed,
-scanband. De mond volgt de visemen uit de audio (spec lipsync): kaak, lipbreedte, ronding,
-boven-/onderlip per Oculus-viseem, geschaald op de luidheid; zonder visemen (Android-stem) een
-gesimuleerd spraakritme. Het gezicht ademt, wiegt licht, knippert, kijkt rond en toont glimlach of
-frons naar de stemming van de tekst of de uitkomst.
+De cirkel ís Roxy (spec avatar, niet openbaar): een procedureel vectorgezicht, getekend met
+Compose Canvas, zonder foto's of video. In rust is ze alleen de ademende cirkel. Zodra ze nodig is
+(luisteren, denken, spreken, een korte reactie zoals gelukt, fout, lachen of niets verstaan, of een
+mededeling) wordt ze in diezelfde cirkel wakker in 700 ms: de cirkel groeit iets, de schijf wordt
+donker glas en de ogen gaan open. ± 2 s na het laatste moment slaapt ze in 600 ms weer in. Nooit een
+harde cut of een tweede beeld. Ze praat mee met de visemen uit de audio (spec lipsync) en komt nooit
+over IN_CALL, CONTENT of SETTINGS.
 *(Aangepast 2026-10-31: stip → ademende cirkel, waveform → deeltjes, overgenomen uit Method4Life;
 kleizwerm van de bot → deeltjesgezicht. Aangepast 2026-11-01: kubusraster op spraakniveau →
-hologram met visemen en expressies.)*
+hologram met visemen en expressies; daarna een foto-avatar, die werd afgekeurd. Aangepast
+2026-11-01 (avond): Roxy is een procedureel vectorgezicht in de cirkel; zwerm, hologram en
+portretten zijn verwijderd.)*
 
 - LS-1 MOET: launcher-activity met intent-categorieën HOME en DEFAULT, `launchMode=singleTask`, `stateNotNeeded=true`.
 - LS-2 MOET: systeembalken verborgen (immersive); eigen statusstrip leest klok, BatteryManager en TelephonyManager-signaal.
@@ -53,7 +54,7 @@ hologram met visemen en expressies.)*
 ## Bevestigingsframework (ConfirmationGate)
 - LS-12 MOET: kaart groot, titel in doeltaal ("Bel Sarah?"), exact twee knoppen: Ja en Nee.
 - LS-13 MOET: ook spraakbaar; "ja"/"nee" wordt lokaal (on-device grammatica) herkend ≤300 ms, zonder botronde.
-- LS-14 MOET: bij Ja geeft de gate een ConfirmationToken af — {actie, doelwit, payload-hash, ttl 60 s, eenmalig}. telephony-bridge en messaging voeren niets uit zonder geldig token.
+- LS-14 MOET: bij Ja geeft de gate een ConfirmationToken af — {actie, doelwit, payload-hash, ttl 60 s, eenmalig}. telephony-bridge en messaging voeren niets uit zonder geldig token. Uitzondering zonder kaart: berichten via een kanaal waarvoor de gebruiker bevestiging uitzette (messaging MSG-8); de gate geeft dan hetzelfde token, hoogstens één per zin van de gebruiker. Bellen vraagt altijd de kaart.
 - LS-15 MOET: timeout 15 s zonder antwoord = Nee; geen actie is de veilige default.
 
 ## Instellingen — verborgen
